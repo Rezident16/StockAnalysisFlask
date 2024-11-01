@@ -11,5 +11,14 @@
         "src": "/(.*)",
         "dest": "app/__init__.py"
       }
-    ]
-  }
+    ],
+    "build": {
+      "env": {
+        "PIP_NO_CACHE_DIR": "off"
+      },
+      "commands": [
+        "./install_talib.sh",
+        "pip install -r requirements.txt" 
+      ]
+    }
+}
