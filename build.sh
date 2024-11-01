@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -o errexit  # Exit on error
 
-set -e  # Exit immediately if a command exits with a non-zero status
-set -x  # Print commands and their arguments as they are executed
+# Install TA-Lib C library
+apt-get update && apt-get install -y ta-lib
 
 # Define the installation directory
 INSTALL_DIR=$HOME/ta-lib
