@@ -28,7 +28,7 @@ pytz==2024.2
 PyYAML==6.0.1
 requests==2.32.3
 six==1.16.0
-TA-Lib==0.4.32
+TA-Lib
 typing-extensions==4.12.2
 tzdata==2024.2
 urllib3==1.26.20

@@ -17,8 +17,8 @@
         "PIP_NO_CACHE_DIR": "off"
       },
       "commands": [
-        "./install_talib.sh",
-        "pip install -r requirements.txt" 
+        "sh install_talib.sh",
+        "pip install -r requirements.txt"
       ]
     }
-}
+  }
