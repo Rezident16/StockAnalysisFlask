@@ -33,3 +33,6 @@ cd ..
 rm -rf ta-lib ta-lib-0.4.0-src.tar.gz
 
 echo "TA-Lib installation completed."
+
+# Install Python dependencies
+pip install -r requirements.txt
