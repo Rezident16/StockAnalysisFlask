@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: stock-analysis-flask
+    env: python
+    buildCommand: ./build.sh
+    startCommand: python app/__init__.py
+    plan: free
