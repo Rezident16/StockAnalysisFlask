@@ -12,13 +12,8 @@
         "dest": "app/__init__.py"
       }
     ],
-    "build": {
-      "env": {
-        "PIP_NO_CACHE_DIR": "off"
-      },
-      "commands": [
-        "sh install_talib.sh",
-        "pip install -r requirements.txt"
-      ]
+    "buildCommand": "sh install_talib.sh && pip install -r requirements.txt",
+    "env": {
+      "PIP_NO_CACHE_DIR": "off"
     }
   }
