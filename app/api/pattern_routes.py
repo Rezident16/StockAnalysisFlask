@@ -14,27 +14,25 @@ timeframes = {
 
 def bar_to_dict(bar):
     return {
-        'close': round(bar.c, 2),
-        'high': round(bar.h, 2),
-        'low': round(bar.l, 2),
-        'open': round(bar.o, 2),
-        "date": bar.t,
+        'time': bar.Index[1],
+        'open': round(bar.open, 2),
+        'high': round(bar.high, 2),
+        'low': round(bar.low, 2),
+        'close': round(bar.close, 2),
+        'volume': bar.volume
     }
 
-def get_timeframe_and_barset(id, stock):
-    if id not in timeframes:
-        return 'Invalid id', None
-
-    timeframe = timeframes[id]
-    barset = get_barset(stock, timeframe)  # Flask Server
-    json_barset = [bar_to_dict(bar) for bar in barset]
-    return timeframe, json_barset
+def get_timeframe_and_barset(timeFrameChosen, symbol):
+    timeFrame = timeframes[timeFrameChosen]
+    barset = get_barset(symbol, timeFrame)
+    json_barset = [bar_to_dict(bar) for bar in barset.itertuples()]
+    return timeFrameChosen, json_barset
 
 @pattern_routes.route('/<symbol>/<int:timeFrameChosen>')
 def get_patterns(symbol, timeFrameChosen):
     if timeFrameChosen not in timeframes:
-        return 'Invalid id'
-    timeframe, json_barset = get_timeframe_and_barset(timeFrameChosen, symbol)
-    patternsResult = patterns_result(json_barset, symbol, timeframe)
+        return 'Invalid id', 400
+    timeframe, barset = get_timeframe_and_barset(timeFrameChosen, symbol)
+    patternsResult = patterns_result(barset, symbol, timeframe)
 
     return jsonify(patternsResult)

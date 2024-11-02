@@ -1,24 +1,43 @@
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+<<<<<<< HEAD
 from alpaca_trade_api import REST, TimeFrame, TimeFrameUnit
+=======
+from alpaca.data.historical import StockHistoricalDataClient
+from alpaca.data.requests import StockBarsRequest, StockSnapshotRequest
+from alpaca.data.timeframe import TimeFrame
+>>>>>>> 3862a56 (.)
 from dotenv import load_dotenv
 import talib
 import numpy as np
 import os
 from flask import current_app
 
+<<<<<<< HEAD
 
 
 load_dotenv()
 # Global Variables
+=======
+load_dotenv()
+
+# Variables
+>>>>>>> 3862a56 (.)
 API_KEY = os.getenv("API_KEY")
 API_SECRET = os.getenv("API_SECRET")
 BASE_URL = os.getenv("BASE_URL")
 ALPACA_CREDS = {
+<<<<<<< HEAD
     "API_KEY":API_KEY, 
     "API_SECRET": API_SECRET, 
 }
 api = REST(base_url=BASE_URL, key_id=API_KEY, secret_key=API_SECRET)
+=======
+    "API_KEY": API_KEY, 
+    "API_SECRET": API_SECRET, 
+}
+client = StockHistoricalDataClient(API_KEY, API_SECRET)
+>>>>>>> 3862a56 (.)
 DATE_FORMAT = '%Y-%m-%d'
 
 PATTERNS = [
@@ -41,6 +60,7 @@ def get_barset(stock, timeFrameChosen):
     # Stock is a symbol
     _, _, one_month_ago, _, _, year_ago, five_year_ago = get_dates()
     if timeFrameChosen == '15Min':
+<<<<<<< HEAD
         barset = api.get_bars(stock,timeframe=TimeFrame(15, TimeFrameUnit.Minute), limit=100) # 15 Min timeframe
     elif timeFrameChosen == '30Min':
         barset = api.get_bars(stock,timeframe=TimeFrame(30, TimeFrameUnit.Minute), limit=50) # 30 Min timeframe
@@ -50,6 +70,43 @@ def get_barset(stock, timeFrameChosen):
         barset = api.get_bars(stock, TimeFrame.Day, start = year_ago , limit=367) # Daily timeframe
     else:
         barset = api.get_bars(stock, TimeFrame.Week, start = five_year_ago, limit=264) # Weekly timeframe
+=======
+        request_params = StockBarsRequest(
+            symbol_or_symbols=stock,
+            timeframe=TimeFrame.Minute,
+            start=one_month_ago,
+            limit=100
+        )
+    elif timeFrameChosen == '30Min':
+        request_params = StockBarsRequest(
+            symbol_or_symbols=stock,
+            timeframe=TimeFrame.Minute,
+            start=one_month_ago,
+            limit=50
+        )
+    elif timeFrameChosen == '1Hour':
+        request_params = StockBarsRequest(
+            symbol_or_symbols=stock,
+            timeframe=TimeFrame.Hour,
+            start=one_month_ago,
+            limit=750
+        )
+    elif timeFrameChosen == '1Day':
+        request_params = StockBarsRequest(
+            symbol_or_symbols=stock,
+            timeframe=TimeFrame.Day,
+            start=year_ago,
+            limit=367
+        )
+    else:
+        request_params = StockBarsRequest(
+            symbol_or_symbols=stock,
+            timeframe=TimeFrame.Week,
+            start=five_year_ago,
+            limit=264
+        )
+    barset = client.get_stock_bars(request_params).df
+>>>>>>> 3862a56 (.)
     return barset
 
 def patterns_result(barset, stock, timeframe):
@@ -65,8 +122,14 @@ def patterns_result(barset, stock, timeframe):
     return results
 
 def get_price(stock):
+<<<<<<< HEAD
     snapshot = api.get_snapshot(stock)
     return snapshot.minute_bar.vw
+=======
+    request_params = StockSnapshotRequest(symbol_or_symbols=stock)
+    snapshot = client.get_stock_snapshot(request_params)
+    return snapshot[stock].minute_bar.vw
+>>>>>>> 3862a56 (.)
 
 def check_pattern(pattern, open, high, low, close):
     function = getattr(talib, pattern)
@@ -75,8 +138,13 @@ def check_pattern(pattern, open, high, low, close):
 
 def create_results(result_list, date, pattern, stock, timeframe, close):
     return [
+<<<<<<< HEAD
         {"date": date[i],"milliseconds": convert_date_to_milliseconds(date[i]), "value": value, "sentiment": 'Bullish', "pattern": pattern, "stock": stock, 'timeframe': timeframe, 'close': close[i] } if value >= 100 
         else {"date":date[i],"milliseconds": convert_date_to_milliseconds(date[i]), "value": value, "sentiment": 'Bearish', "pattern": pattern, "stock": stock,'timeframe': timeframe, 'close': close[i]} 
+=======
+        {"date": date[i], "milliseconds": convert_date_to_milliseconds(date[i]), "value": value, "sentiment": 'Bullish', "pattern": pattern, "stock": stock, 'timeframe': timeframe, 'close': close[i]} if value >= 100 
+        else {"date": date[i], "milliseconds": convert_date_to_milliseconds(date[i]), "value": value, "sentiment": 'Bearish', "pattern": pattern, "stock": stock, 'timeframe': timeframe, 'close': close[i]} 
+>>>>>>> 3862a56 (.)
         for i, value in enumerate(result_list) if value >= 100 or value <= -100
     ]
 
@@ -98,5 +166,9 @@ def extract_data(barset):
     high = np.array([bar['high'] for bar in barset]).astype('double')
     low = np.array([bar['low'] for bar in barset]).astype('double')
     close = np.array([bar['close'] for bar in barset]).astype('double')
+<<<<<<< HEAD
     date = np.array([bar['date'] for bar in barset])
+=======
+    date = np.array([bar['time'] for bar in barset])
+>>>>>>> 3862a56 (.)
     return open, high, low, close, date

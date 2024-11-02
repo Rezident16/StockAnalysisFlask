@@ -1,7 +1,15 @@
 services:
   - type: web
+<<<<<<< HEAD
     name: stock-analysis-flask
     env: python
     buildCommand: ./build.sh
     startCommand: python app/__init__.py
     plan: free
+=======
+    name: stock-analysis-service
+    env: docker
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: ""
+>>>>>>> 3862a56 (.)
