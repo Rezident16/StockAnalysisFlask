@@ -6,11 +6,8 @@ from .api.pattern_routes import pattern_routes
 app = Flask(__name__)
 app.register_blueprint(pattern_routes, url_prefix='/api/patterns')
 
-<<<<<<< HEAD
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
-=======
->>>>>>> 3862a56 (.)
 
 @app.route('/')
 def index():
