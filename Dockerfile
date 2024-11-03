@@ -69,7 +69,3 @@ CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
 # RUN pip install --no-cache-dir urllib3==1.26.20 websocket-client==1.8.0 websockets==10.4
 # RUN pip install --no-cache-dir werkzeug==2.3.7 yarl==1.17.1 zipp==3.20.2 click==8.1.7 deprecation==2.1.0 
 
-
-
-# docker run -p 5000:5000 -e API_KEY=AKJQINA8WM3TSAX7Y7VM -e API_SECRET=dXcSLxgIuase00m5tpMx8b5dxKq9JBXlGI0eK4vP -e BASE_URL=https://paper-api.alpaca.markets analysis-server
-# flask run --host=0.0.0.0 --port=5000
